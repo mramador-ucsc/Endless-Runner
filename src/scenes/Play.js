@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
     }
     create() {
         let gameAudio = this.sound.add('song');
-        //myMusic.play();
+        myMusic.play();
 
         //place tile sprite
         this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0, 0);
@@ -92,14 +92,14 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
         //Ship Speed Increase after 30 seconds
-        //setTimeout(this.increaseSpeed, 30000);
+        setTimeout(this.increaseDifficulty, 10000);
 
     }
 
     update() {
 
         if (this.gameOver) {
-            //  myMusic.pause();
+              myMusic.pause();
         }
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
@@ -239,10 +239,12 @@ class Play extends Phaser.Scene {
         ship.reset();                       // reset ship position
         ship.alpha = 1;                     // make ship visible again
     }
-
-    increaseSpeed() {
-        game.settings.spaceshipSpeed = game.settings.spaceshipSpeed * 2.5;
+*/
+    increaseDifficulty() {
+        enemySpeed = enemySpeed * 1.5;
+        
     }
+    /*
     updatetime() {
         gameTime -= 16.6666;
         if (gameTime >= 16.666) {

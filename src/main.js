@@ -14,8 +14,9 @@ let config = {
 let game = new Phaser.Game(config);
 // define game settings
 game.settings = {
+    playerHealth: 100,
     playerSpeed: 6,
-    gameTimer: 60000,   
+    gameTimer: 60000,
 }
 
 //reserve some keyboard variables
@@ -24,5 +25,13 @@ var highScore = 0;
 var gameTime = 60000;
 var myMusic = new Audio("./assets/elevatorMusic.mp3");
 var platforms;
+
+//Enemy Variables
 var emitter0, emitter1;
+var enemySpeed = 3;
 var space = 400;
+var randomFloor;
+
+function getRandomInt(min, max){
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
