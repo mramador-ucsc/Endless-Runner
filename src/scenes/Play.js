@@ -12,8 +12,8 @@ class Play extends Phaser.Scene {
         // load spritesheet
         //     this.load.spritesheet('explosion', './assets/explosion.png', { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
         //load particles
-        this.load.image('spark0', './assets/blue.png');
-        this.load.image('spark1', './assets/red.png');
+        this.load.image('spark0', './assets/yellow.png');
+        this.load.image('spark1', './assets/green.png');
         //load song
         this.load.audio('song', './assets/elevatorMusic.mp3');
     }
@@ -45,9 +45,9 @@ class Play extends Phaser.Scene {
 
 
         //add enemy x3
-        this.enemy1 = new Enemy(this, config.width + 400, config.height / 3, 'enemy', 0, 30).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
-        this.enemy2 = new Enemy(this, config.width, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
-        this.enemy3 = new Enemy(this, config.width + 200, config.height, 'enemy', 0, 10).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
+        this.enemy1 = new Enemy(this, config.width, config.height / 3, 'enemy', 0, 30).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
+        this.enemy2 = new Enemy(this, config.width + space, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
+        this.enemy3 = new Enemy(this, config.width + space*2, config.height, 'enemy', 0, 10).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
         //define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -178,7 +178,7 @@ class Play extends Phaser.Scene {
             angle: { min: 0, max: 360 },
             scale: { start: 0.5, end: 0 },
             depth: 1,
-            blendMode: 'SCREEN',
+            blendMode: 'COLOR',
             //active: false,
             lifespan: 400,
             gravityY: 0
@@ -191,7 +191,7 @@ class Play extends Phaser.Scene {
             angle: { min: 0, max: 360 },
             scale: { start: 0.5, end: 0 },
             depth: 1,
-            blendMode: 'SCREEN',
+            blendMode: 'COLOR',
             //active: false,
             lifespan: 400,
             gravityY: 0

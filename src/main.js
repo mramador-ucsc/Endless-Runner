@@ -25,3 +25,4 @@ var gameTime = 60000;
 var myMusic = new Audio("./assets/elevatorMusic.mp3");
 var platforms;
 var emitter0, emitter1;
+var space = 400;
