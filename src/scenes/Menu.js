@@ -12,8 +12,10 @@ class Menu extends Phaser.Scene {
         //this.load.image('menuBackground', './assets/menuBackground.png');
         //load border
         //this.load.image('border', './assets/RocketPatrolBorder.png');
+        this.load.audio('song', './assets/Caramelldansen.mp3');
     }
     create() {
+        let gameAudio = this.sound.add('song');
         //place tile sprite
         //this.menuBackground = this.add.tileSprite(0, 0, 640, 480, 'menuBackground').setOrigin(0, 0);
         //place border
@@ -37,7 +39,7 @@ class Menu extends Phaser.Scene {
         let textSpacer = 64;
 
         this.add.text(centerX, centerY - centerY / 2, 'Endless Runner', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use <- -> arrows to move & (F) to Jump', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Use <- -> arrows to move & (^) to Jump', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
  //       this.add.text(centerX, centerY + textSpacer, 'Press <- for Easy or -> for Hard', menuConfig).setOrigin(0.5);
@@ -62,7 +64,8 @@ class Menu extends Phaser.Scene {
             //this.sound.play('sfx_select');
             this.scene.start("playScene");
         }
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+
+        else if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // hard mode
             game.settings = {
                 playerSpeed: 5,

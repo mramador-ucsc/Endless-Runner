@@ -15,11 +15,15 @@ class Play extends Phaser.Scene {
         this.load.image('spark0', './assets/yellow.png');
         this.load.image('spark1', './assets/green.png');
         //load song
-        this.load.audio('song', './assets/elevatorMusic.mp3');
+        //this.load.audio('song', './assets/elevatorMusic.mp3');
+        //this.load.audio('song2', './assets/Caramelldansen.mp3');
+
     }
     create() {
-        let gameAudio = this.sound.add('song');
-        myMusic.play();
+        //let gameAudio = this.sound.add('song2');
+        myMusic.volume = 0.1;
+        //myMusic.play();
+
 
         //place tile sprite
         this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0, 0);
@@ -31,8 +35,12 @@ class Play extends Phaser.Scene {
         //this.stars = this.add.tileSprite(0, 0, 640, 480, 'stars').setOrigin(0, 0);
 
         //white rectangle borders
-        //this.add.rectangle(5, 5, 630, 32, 0xFFFFFF).setOrigin(0, 0);
-        //this.add.rectangle(5, 443, 630, 32, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, 0, config.width, 50, 0xFACADE).setOrigin(0, 0);
+        this.add.rectangle(130, 10, 200, 32, 0x000000).setOrigin(0, 0);
+        //var hp = this.add.rectangle(140, 15, 180, 20, 0xFFFFFF).setOrigin(0, 0);
+        var rect = new Phaser.Geom.Rectangle(140, 15, 180, 20);
+        graphics.fillRectShape(rect);
+
         //this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
         //this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
         //this.border = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'border').setOrigin(0, 0);
@@ -49,7 +57,7 @@ class Play extends Phaser.Scene {
         this.enemy2 = new Enemy(this, config.width + space, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
         this.enemy3 = new Enemy(this, config.width + space*2, config.height, 'enemy', 0, 10).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
         //define keyboard keys
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -97,13 +105,18 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-
+        
         if (this.gameOver) {
               myMusic.pause();
               enemySpeed = 3;
         }
+
+        if(Phaser.Input.Keyboard.JustDown(keyUP)){
+            rect.setSize(width-10,height);
+        }
+
         // check key input for restart
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyUP)) {
             gameTime = game.settings.gameTimer;
             //game.settings.playerSpeed = game.settings.spaceshipSpeed / 2.5;
             this.scene.restart();
