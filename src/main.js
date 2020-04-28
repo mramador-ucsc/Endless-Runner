@@ -20,10 +20,10 @@ game.settings = {
 }
 
 //reserve some keyboard variables
-let keyF, keyLEFT, keyRIGHT, keyDOWN;
+let keyUP, keyLEFT, keyRIGHT, keyDOWN;
 var highScore = 0;
 var gameTime = 60000;
-var myMusic = new Audio("./assets/elevatorMusic.mp3");
+var myMusic = new Audio("./assets/Caramelldansen.mp3");
 var platforms;
 
 //Enemy Variables

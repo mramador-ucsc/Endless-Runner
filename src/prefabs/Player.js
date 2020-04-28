@@ -8,7 +8,6 @@ class Player extends Phaser.GameObjects.Sprite {
         //this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
     }
     update() {
-
         //left/right movement
         if (this.x > 0) {
             this.x -= .5;
@@ -36,7 +35,7 @@ class Player extends Phaser.GameObjects.Sprite {
                }
             }
             //If player is on the second floor, fall to first floor
-            if (this.y >= (config.height * 2) / 3 && this.y < config.height) {
+            else if (this.y >= (config.height * 2) / 3 && this.y < config.height) {
                 this.y += game.settings.playerSpeed;
                 if(this.y == config.height){
                     this.isFalling = false;
@@ -44,12 +43,13 @@ class Player extends Phaser.GameObjects.Sprite {
             }
         }
         // Jumping button
-        if (Phaser.Input.Keyboard.JustDown(keyF) && !this.isJumping && !this.isFalling && this.y > config.height/3) {
+        if (Phaser.Input.Keyboard.JustDown(keyUP) && !this.isJumping && !this.isFalling && this.y > config.height/3) {
             this.isJumping = true;
             //this.sfxRocket.play();  // play sfx
         }
         //if Jumping, move up
         if (this.isJumping) {
+            //console.log(this.y);
             //if the player is on the first floor, jump to the second floor
             if (this.y <= config.height  && this.y > (config.height * 2) / 3) {
                 this.y -= game.settings.playerSpeed;
@@ -58,7 +58,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 }
             }
             //If player is on the second floor, jump to the third floor
-            else if (this.y <= (config.height * 2) / 3 && this.y > config.height / 3) {
+            else if (this.y <= Math.trunc((config.height * 2) / 3) && this.y > config.height / 3) {
                 this.y -= game.settings.playerSpeed;
                 if (this.y == config.height / 3) {
                     this.isJumping = false;
