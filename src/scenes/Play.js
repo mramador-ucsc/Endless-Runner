@@ -92,7 +92,7 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
         //Ship Speed Increase after 30 seconds
-        setTimeout(this.increaseDifficulty, 10000);
+        setInterval(this.increaseDifficulty, 10000);
 
     }
 
@@ -100,6 +100,7 @@ class Play extends Phaser.Scene {
 
         if (this.gameOver) {
               myMusic.pause();
+              enemySpeed = 3;
         }
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
