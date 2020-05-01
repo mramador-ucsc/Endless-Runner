@@ -35,11 +35,12 @@ class Play extends Phaser.Scene {
         //this.stars = this.add.tileSprite(0, 0, 640, 480, 'stars').setOrigin(0, 0);
 
         //white rectangle borders
-        this.add.rectangle(0, 0, config.width, 50, 0xFACADE).setOrigin(0, 0);
-        this.add.rectangle(130, 10, 200, 32, 0x000000).setOrigin(0, 0);
+        //this.add.rectangle(0, 0, config.width, 50, 0xFACADE).setOrigin(0, 0);
+        //this.add.rectangle(130, 10, 200, 32, 0x000000).setOrigin(0, 0);
+        this.hp = new ingameUI(this, 100, 32);
         //var hp = this.add.rectangle(140, 15, 180, 20, 0xFFFFFF).setOrigin(0, 0);
-        var rect = new Phaser.Geom.Rectangle(140, 15, 180, 20);
-        graphics.fillRectShape(rect);
+        //var rect = new Phaser.Geom.Rectangle(140, 15, 180, 20);
+        //graphics.fillRectShape(rect);
 
         //this.add.rectangle(5, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
         //this.add.rectangle(603, 5, 32, 455, 0xFFFFFF).setOrigin(0, 0);
@@ -47,6 +48,9 @@ class Play extends Phaser.Scene {
 
         //green UI background
         //this.add.rectangle(37, 42, 566, 64, 0x00FF00).setOrigin(0, 0);
+
+        //UI
+       // this.ui = new ingameUI(this, options)
 
         //add player (p1)
         this.p1 = new Player(this, config.width / 2, config.height, 'player').setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
@@ -111,10 +115,6 @@ class Play extends Phaser.Scene {
               enemySpeed = 3;
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyUP)){
-            rect.setSize(width-10,height);
-        }
-
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyUP)) {
             gameTime = game.settings.gameTimer;
@@ -129,6 +129,7 @@ class Play extends Phaser.Scene {
         this.enemyParticle(this.enemy1); 
         this.enemyParticle(this.enemy2);
         this.enemyParticle(this.enemy3);
+
         //scroll starfield
         this.background.tilePositionX += .5;
         //this.stars.tilePositionX -= 3;
@@ -197,7 +198,7 @@ class Play extends Phaser.Scene {
             lifespan: 400,
             gravityY: 0
         });
-
+            
         var emitter1 = this.add.particles('spark1').createEmitter({
             x: enemy.x,
             y: enemy.y - enemy.height / 4,
