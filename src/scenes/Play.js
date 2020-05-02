@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
         //load images/tile sprite
         this.load.image('player', './assets/player.png');
         this.load.image('enemy', './assets/enemy.png');
+        this.load.image('cloud', './assets/doodleCloud.png');
         this.load.image('background', './assets/playBackground.png');
         this.load.image('ground', './assets/platform.png');
         // load spritesheet
@@ -21,8 +22,9 @@ class Play extends Phaser.Scene {
     }
     create() {
         //let gameAudio = this.sound.add('song2');
-        myMusic.volume = 0.1;
-        //myMusic.play();
+        //myMusic.volume = 0.1;
+        //var dotHit = false;
+        myMusic.play();
 
 
         //place tile sprite
@@ -55,11 +57,16 @@ class Play extends Phaser.Scene {
         //add player (p1)
         this.p1 = new Player(this, config.width / 2, config.height, 'player').setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
 
-
         //add enemy x3
         this.enemy1 = new Enemy(this, config.width, config.height / 3, 'enemy', 0, 30).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
         this.enemy2 = new Enemy(this, config.width + space, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
         this.enemy3 = new Enemy(this, config.width + space*2, config.height, 'enemy', 0, 10).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
+
+        //add dot clouds x3
+        this.covid1 = new covidCloud(this, this.enemy1.x, this.enemy1.y-50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
+        this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y-50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
+        this.covid3 = new covidCloud(this, this.enemy3.x, this.enemy3.y-50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
+
         //define keyboard keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -109,6 +116,10 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+
+        if(this.hp.isDead == true){
+            this.gameOver = true;
+        }
         
         if (this.gameOver) {
               myMusic.pause();
@@ -139,6 +150,10 @@ class Play extends Phaser.Scene {
             this.enemy1.update();
             this.enemy2.update();
             this.enemy3.update();
+
+            this.covid1.update();
+            this.covid2.update();
+            this.covid3.update();
             // this.updatetime();
             /* 
             if (this.p1Score > highScore) {
@@ -164,6 +179,24 @@ class Play extends Phaser.Scene {
             //this.p1Rocket.reset();
             //this.shipExplode(this.ship02);
         }
+
+        if(this.checkCollision(this.p1, this.covid1) && dotHit == false && !this.gameOver){
+            this.hp.decrease(this,Phaser.Math.Between(1, 4));
+            dotHit = true;
+            this.dotClock = this.time.delayedCall(4000, this.dotDone);
+        }
+
+        if(this.checkCollision(this.p1, this.covid2) && dotHit == false && !this.gameOver){
+            this.hp.decrease(this,Phaser.Math.Between(1, 4));
+            dotHit = true;
+            this.dotClock = this.time.delayedCall(4000, this.dotDone);
+        }
+
+        if(this.checkCollision(this.p1, this.covid3) && dotHit == false && !this.gameOver){
+            this.hp.decrease(this,Phaser.Math.Between(1, 4));
+            dotHit = true;
+            this.dotClock = this.time.delayedCall(4000, this.dotDone);
+        }
         /*
         //Check if game is over, if it is, display 0 time left
         if (this.gameOver) {
@@ -183,6 +216,10 @@ class Play extends Phaser.Scene {
         } else {
             return false;
         }
+    }
+
+    dotDone(){
+        dotHit = false;
     }
 
     enemyParticle(enemy) {
