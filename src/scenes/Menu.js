@@ -12,7 +12,7 @@ class Menu extends Phaser.Scene {
         //this.load.image('menuBackground', './assets/menuBackground.png');
         //load border
         //this.load.image('border', './assets/RocketPatrolBorder.png');
-        this.load.audio('song', './assets/Caramelldansen.mp3');
+        this.load.audio('song', './assets/BrentsBible.mp3');
     }
     create() {
         let gameAudio = this.sound.add('song');
