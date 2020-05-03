@@ -1,14 +1,17 @@
-//Enemy prefab
-class Enemy extends Phaser.GameObjects.Sprite {
+//FaceMask prefab
+class FaceMask extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame);
 
+
         scene.add.existing(this); //add object to existing scene, displayList, updateList
+        //this.points = pointValue;
+
     }
     
     update() {
         //move Enemy left
-        this.x -= enemySpeed;
+        this.x -= enemySpeed + 10;
         //wrap around screen bounds
         if (this.x <= 0 - this.width) {
              this.randomFloor = getRandomInt(1, 3);

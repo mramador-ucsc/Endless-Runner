@@ -66,7 +66,7 @@ class Player extends Phaser.GameObjects.Sprite {
             }
         }
         /*
-                //reset on miss
+                // bn on miss
                 if (this.y <= 108) {
                     this.reset();
                 }
