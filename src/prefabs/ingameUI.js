@@ -62,15 +62,6 @@ class ingameUI {
             
         }, null, scene);
 
-
-
-        //rect.setFillStyle(0x00FF00, 0.1);
-
-        
-
-
-        //return (this.value === 0);
-
     }
     
     draw(){
