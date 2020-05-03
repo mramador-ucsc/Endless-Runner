@@ -64,6 +64,9 @@ class Play extends Phaser.Scene {
         // facemask boolean
         this.facemaskon = false;
 
+        //Key-Recording bool
+        this.keycheck = false;
+
         // game over flag
         this.gameOver = false;
 
@@ -86,27 +89,31 @@ class Play extends Phaser.Scene {
         //console.log(globalTime);
         //this.elasped = Math.floor(this.difficultyTimer.getElapsed());
         //console.log(this.elasped);
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        if(Phaser.Input.Keyboard.JustDown(keyRIGHT) && this.keycheck == false && !(this.gameOver)) {
             this.p1intx = this.p1.x;
             this.p1inty = this.p1.y;
+            this.keycheck = true;
             keyRIGHT.on('up', (event) => {  
             //console.log(this.p1.x); //get an error           
             //console.log(this.p1.y); //get an error
-            //console.log("distance: " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            console.log("distance(r): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
             this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            this.keycheck = false;
             });
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if(Phaser.Input.Keyboard.JustDown(keyLEFT) && this.keycheck == false && !(this.gameOver)){
             this.p1intx = this.p1.x;
             //console.log(this.p1intx);
             this.p1inty = this.p1.y;
             //console.log(this.p1inty);
+            this.keycheck = true;
             keyLEFT.on('up', (event) => {  
             //console.log(this.p1.x); //get an error           
             //console.log(this.p1.y); //get an error
-            //console.log("distance: " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            console.log("distance(l): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
             this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y)); 
+            this.keycheck = false;
             });
         }
 
