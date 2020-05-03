@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         this.load.image('ground', './assets/platform.png');
         this.load.image('spark0', './assets/yellow.png');
         this.load.image('spark1', './assets/green.png');
+        this.load.image('sick', './assets/sick.png');
     }
     create() {
         myMusic.play();
@@ -25,14 +26,15 @@ class Play extends Phaser.Scene {
         platforms.create(config.width / 2, config.height / 3, 'ground'); //third floor
         platforms.create(config.width / 2, (config.height + config.height) / 3, 'ground'); //second floor
         platforms.create(config.width / 2, config.height, 'ground'); //first floor
-<<<<<<< HEAD
         platforms.setAlpha(0);
         //this.stars = this.add.tileSprite(0, 0, 640, 480, 'stars').setOrigin(0, 0);
-=======
->>>>>>> f806b2024ca659575c8e3786f462310a364d67df
 
         //Add HP Bar
-        this.hp = new ingameUI(this, 100, 32);
+        this.hp = new ingameUI(this, 50, 32);
+
+        //Add sick icon next to HP Bar
+        this.sickIcon = this.add.tileSprite(this.hp.x + 80, this.hp.y, 16, 16, 'sick').setScale(2,2).setOrigin(0, 0);
+        this.sickIcon.setAlpha(0);
 
         //add player (p1)
         this.p1 = new Player(this, config.width / 2, config.height, 'player').setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
@@ -155,12 +157,14 @@ class Play extends Phaser.Scene {
                 console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
+                this.sickIcon.setAlpha(0);
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
                 return;
             }
 
             this.hp.decrease(this,Phaser.Math.Between(1, 4));
             dotHit = true;
+            this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(4000, this.dotDone);
         }
 
@@ -170,12 +174,14 @@ class Play extends Phaser.Scene {
                 console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
+                this.sickIcon.setAlpha(0);
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
                 return;
             }
 
             this.hp.decrease(this,Phaser.Math.Between(1, 4));
             dotHit = true;
+            this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(3000, this.dotDone);
         }
 
@@ -185,12 +191,14 @@ class Play extends Phaser.Scene {
                 console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
+                this.sickIcon.setAlpha(1);
                 this.dotClock = this.time.delayedCall(4000, this.dotDone);
                 return;
             }
             console.log("i am here");
             this.hp.decrease(this,Phaser.Math.Between(1, 4));
             dotHit = true;
+            this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(4000, this.dotDone);
         }
 

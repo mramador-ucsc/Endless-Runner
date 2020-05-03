@@ -26,7 +26,7 @@ class Menu extends Phaser.Scene {
         let textSpacer = 64;
 
         this.add.text(centerX, centerY - centerY / 2, 'Endless Runner', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use <- -> arrows to move & (^) to Jump', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Use ← → arrows to move & ↑ to Jump', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
 
@@ -34,7 +34,7 @@ class Menu extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         //Launch the next scene
-        this.scene.start("playScene");
+    //    this.scene.start("playScene");
     }
 
     update() {
