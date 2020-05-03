@@ -34,6 +34,7 @@ class Play extends Phaser.Scene {
         platforms.create(config.width / 2, config.height / 3, 'ground'); //third floor
         platforms.create(config.width / 2, (config.height + config.height) / 3, 'ground'); //second floor
         platforms.create(config.width / 2, config.height, 'ground'); //first floor
+        platforms.setAlpha(0);
         //this.stars = this.add.tileSprite(0, 0, 640, 480, 'stars').setOrigin(0, 0);
 
         //white rectangle borders
