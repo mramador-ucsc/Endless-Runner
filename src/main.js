@@ -26,6 +26,10 @@ var gameTime = 60000;
 var myMusic = new Audio("./assets/BrentsBible.mp3");
 var platforms;
 
+//High Scores
+var p1HighScore = 0;
+var p1HighTime = 0;
+
 //Enemy Variables
 var emitter0, emitter1;
 var enemySpeed = 3;
