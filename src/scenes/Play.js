@@ -110,7 +110,8 @@ class Play extends Phaser.Scene {
             keyLEFT.on('up', (event) => {  
             //console.log(this.p1.x); //get an error           
             //console.log(this.p1.y); //get an error
-            //console.log("distance: " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y)); 
+            //console.log("distance: " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y)); 
             });
         }
 
