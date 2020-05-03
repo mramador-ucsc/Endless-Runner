@@ -17,8 +17,7 @@ class Play extends Phaser.Scene {
     }
     create() {
         myMusic.play();
-
-
+        //var globalTime = this.game.time.totalElapsedSeconds();
         //place tile sprite, grocery background
         this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0, 0);
 
@@ -60,6 +59,11 @@ class Play extends Phaser.Scene {
 
         // score
         this.p1Score = 0;
+        //p1HighScore = this.p1HighScore;
+        //p1HighTime = this.;
+
+        this.p1HighScore = p1HighScore;
+        this.p1HighTime = p1HighTime;
         //console.log(this.p1.x);
         this.p1intx = this.p1.x;
         this.p1inty = this.p1.y;
@@ -67,10 +71,20 @@ class Play extends Phaser.Scene {
         // facemask boolean
         this.facemaskon = false;
 
+        //Key-Recording bool
+        this.keycheck = false;
+
         // game over flag
         this.gameOver = false;
 
+        this.difficultyTimer = this.time.addEvent({
+            delay: 1000,
+            callback: this.timeUp,
+            callbackScope: this,
+            loop: true
+        });
 
+        this.elasped = 0;
         //Ship Speed Increase after 30 seconds
         setInterval(this.increaseDifficulty, 10000);
         //console.log(Phaser.Math.Distance.Between(0,0,100,0)); // 103.07764064044152
@@ -79,25 +93,80 @@ class Play extends Phaser.Scene {
 
     update() {
         //WIP for score system
-        /*
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        //console.log(globalTime);
+        //this.elasped = Math.floor(this.difficultyTimer.getElapsed());
+        //console.log(this.elasped);
+        if(Phaser.Input.Keyboard.JustDown(keyRIGHT) && this.keycheck == false && !(this.gameOver)) {
             this.p1intx = this.p1.x;
             this.p1inty = this.p1.y;
+            this.keycheck = true;
             keyRIGHT.on('up', (event) => {  
             //console.log(this.p1.x); //get an error           
             //console.log(this.p1.y); //get an error
-            console.log("distance: " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y)); 
-            console.log("running3");
+            console.log("distance(r): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            this.keycheck = false;
             });
-        }*/
+        }
+
+        if(Phaser.Input.Keyboard.JustDown(keyLEFT) && this.keycheck == false && !(this.gameOver)){
+            this.p1intx = this.p1.x;
+            //console.log(this.p1intx);
+            this.p1inty = this.p1.y;
+            //console.log(this.p1inty);
+            this.keycheck = true;
+            keyLEFT.on('up', (event) => {  
+            //console.log(this.p1.x); //get an error           
+            //console.log(this.p1.y); //get an error
+            console.log("distance(l): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y)); 
+            this.keycheck = false;
+            });
+        }
+
 
         if(this.hp.isDead == true){
             this.gameOver = true;
         }
         
         if (this.gameOver) {
+            this.difficultyTimer.paused = true;
               myMusic.pause();
               enemySpeed = 3;
+              let scoreConfig = {
+                fontFamily: 'Courier',
+                fontSize: '20px',
+                backgroundColor: '#EEE8AA',
+                color: '#843605',
+                align: 'center',
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
+                fixedWidth: 400
+            }
+            
+            this.add.rectangle(config.width/3, config.height/3, 400, 250, 0xFACADE).setOrigin(0, 0);
+            scoreConfig.fontSize = 17;
+            this.menu = this.add.text(425, 250, "Press < to go back or ^ to play again", scoreConfig);
+            scoreConfig.fontSize = 20;
+            this.scoreLeft = this.add.text(425, 300, "You traveled: " + this.p1Score, scoreConfig);
+            this.scoreRight = this.add.text(425, 350,"Seconds alive: " + this.elasped, scoreConfig);
+
+
+            if(this.p1HighScore<this.p1Score){
+                p1HighScore = this.p1Score;
+                this.p1HighScore = this.p1Score;
+            }
+
+            if(this.p1HighTime<this.elasped){
+                p1HighTime = this.elasped;
+                this.p1HighTime = this.elasped;
+            }
+            this.highLeft = this.add.text(425, 400, "Longest Distance: " + p1HighScore, scoreConfig);
+            this.highRight = this.add.text(425, 450, "Longest Time: " + p1HighTime, scoreConfig);
+
+
         }
 
         // check key input for restart
@@ -107,6 +176,7 @@ class Play extends Phaser.Scene {
 
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            console.log(menu);
             this.scene.start("menuScene");
         }
         //Update enemy particles behind them
@@ -251,8 +321,11 @@ class Play extends Phaser.Scene {
     }
 
     increaseDifficulty() {
-        enemySpeed = enemySpeed * 1.5;
-        
+        enemySpeed = enemySpeed * 1.5;    
+    }
+
+    timeUp(){
+        this.elasped++;
     }
 
 }
