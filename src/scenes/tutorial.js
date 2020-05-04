@@ -1,17 +1,11 @@
-class Menu extends Phaser.Scene {
+class Tutorial extends Phaser.Scene {
     constructor() {
-        super("menuScene");
+        super("tutorialScene");
     }
     preload() {
-        this.load.audio('song', './assets/BrentsBible.mp3');
-        this.load.audio('sfx_hurt', './assets/sfx_hurt.flac');
-        this.load.audio('sfx_jump', './assets/sfx_jump.ogg');
-        this.load.audio('sfx_fall', './assets/sfx_fall.ogg');
         this.load.audio('sfx_select', './assets/sfx_click.wav');
     }
     create() {
-        let gameAudio = this.sound.add('song');
-
         let menuConfig = {
             fontFamily: 'Arial Black',
             fontSize: '28px',
@@ -31,27 +25,21 @@ class Menu extends Phaser.Scene {
 
         this.add.text(centerX, centerY - centerY / 2, 'Endless Runner', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY, 'Use ← → arrows to move & ↑ to Jump', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Avoid ', menuConfig).setOrigin(0.5);
+        //this.add.text(centerX, centerY, 'Avoid ', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
 
         // define keys
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        //keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         //Launch the next scene
         //    this.scene.start("playScene");
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            // hard mode
-            game.settings = {
-                playerSpeed: 5,
-                gameTimer: 45000
-            }
-            gameTime = 45000;
+        if (Phaser.Input.Keyboard.JustDown(keyM)) {
             this.sound.play('sfx_select');
-            this.scene.start("loreScene");
+            this.scene.start("tutorialScene");
         }
     }
 }
