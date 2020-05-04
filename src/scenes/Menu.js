@@ -34,7 +34,7 @@ class Menu extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         //Launch the next scene
-        this.scene.start("playScene");
+        //this.scene.start("playScene");
     }
 
     update() {

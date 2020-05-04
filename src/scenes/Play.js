@@ -24,11 +24,8 @@ class Play extends Phaser.Scene {
         platforms.create(config.width / 2, config.height / 3, 'ground'); //third floor
         platforms.create(config.width / 2, (config.height + config.height) / 3, 'ground'); //second floor
         platforms.create(config.width / 2, config.height, 'ground'); //first floor
-<<<<<<< HEAD
         platforms.setAlpha(0);
         //this.stars = this.add.tileSprite(0, 0, 640, 480, 'stars').setOrigin(0, 0);
-=======
->>>>>>> f806b2024ca659575c8e3786f462310a364d67df
 
         //Add HP Bar
         this.hp = new ingameUI(this, 100, 32);
@@ -69,6 +66,8 @@ class Play extends Phaser.Scene {
         // facemask boolean
         this.facemaskon = false;
 
+        //done
+
         //Key-Recording bool
         this.keycheck = false;
 
@@ -83,43 +82,45 @@ class Play extends Phaser.Scene {
         });
 
         this.elasped = 0;
+
         //Ship Speed Increase after 30 seconds
-        setInterval(this.increaseDifficulty, 10000);
+        
+        //setInterval(this.increaseDifficulty, 10000);
         //console.log(Phaser.Math.Distance.Between(0,0,100,0)); // 103.07764064044152
+
+        keyLEFT.on('up', (event) => {  
+            //console.log(this.p1.x);            
+            //console.log(this.p1.y);
+            if(!this.gameOver){
+            console.log("distance(l): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1int.x,this.p1int.y,this.p1.x,this.p1.y)); 
+            this.keycheck = false;
+                }
+            });
+
+            keyRIGHT.on('up', (event) => {  
+                //console.log(this.p1.x); //get an error           
+            //console.log(this.p1.y); //get an error
+            if(!this.gameOver){
+            console.log("distance(r): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1int.x,this.p1int.y,this.p1.x,this.p1.y));
+            this.keycheck = false;
+                }
+            });
 
     }
 
     update() {
-        //WIP for score system
-        //console.log(globalTime);
-        //this.elasped = Math.floor(this.difficultyTimer.getElapsed());
-        //console.log(this.elasped);
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT) && this.keycheck == false && !(this.gameOver)) {
-            this.p1intx = this.p1.x;
-            this.p1inty = this.p1.y;
+
+        if(Phaser.Input.Keyboard.JustDown(keyRIGHT) && this.keycheck == false) {
+            this.p1int = coord(this.p1.x, this.p1.y); function coord (x,y) { return {x, y} }
             this.keycheck = true;
-            keyRIGHT.on('up', (event) => {  
-            //console.log(this.p1.x); //get an error           
-            //console.log(this.p1.y); //get an error
-            console.log("distance(r): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
-            this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
-            this.keycheck = false;
-            });
+
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyLEFT) && this.keycheck == false && !(this.gameOver)){
-            this.p1intx = this.p1.x;
-            //console.log(this.p1intx);
-            this.p1inty = this.p1.y;
-            //console.log(this.p1inty);
+        if(Phaser.Input.Keyboard.JustDown(keyLEFT) && this.keycheck == false){
+            this.p1int = coord(this.p1.x, this.p1.y); function coord (x,y) { return {x, y} }
             this.keycheck = true;
-            keyLEFT.on('up', (event) => {  
-            //console.log(this.p1.x); //get an error           
-            //console.log(this.p1.y); //get an error
-            console.log("distance(l): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
-            this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y)); 
-            this.keycheck = false;
-            });
         }
 
 
@@ -131,6 +132,7 @@ class Play extends Phaser.Scene {
             this.difficultyTimer.paused = true;
               myMusic.pause();
               enemySpeed = 3;
+              
               let scoreConfig = {
                 fontFamily: 'Courier',
                 fontSize: '20px',
@@ -143,13 +145,17 @@ class Play extends Phaser.Scene {
                 },
                 fixedWidth: 400
             }
-            
             this.add.rectangle(config.width/3, config.height/3, 400, 250, 0xFACADE).setOrigin(0, 0);
             scoreConfig.fontSize = 17;
-            this.menu = this.add.text(425, 250, "Press < to go back or ^ to play again", scoreConfig);
+            this.menu = this.add.text(425, 250, "Press < to go back or ^ to play again", scoreConfig);            
+            this.menu.setDepth(999);
+
             scoreConfig.fontSize = 20;
             this.scoreLeft = this.add.text(425, 300, "You traveled: " + this.p1Score, scoreConfig);
+            this.scoreLeft.setDepth(999);
+
             this.scoreRight = this.add.text(425, 350,"Seconds alive: " + this.elasped, scoreConfig);
+            this.scoreRight.setDepth(999);
 
 
             if(this.p1HighScore<this.p1Score){
@@ -162,7 +168,9 @@ class Play extends Phaser.Scene {
                 this.p1HighTime = this.elasped;
             }
             this.highLeft = this.add.text(425, 400, "Longest Distance: " + p1HighScore, scoreConfig);
+            this.highLeft.setDepth(999);
             this.highRight = this.add.text(425, 450, "Longest Time: " + p1HighTime, scoreConfig);
+            this.highRight.setDepth(999);
 
 
         }
@@ -174,7 +182,7 @@ class Play extends Phaser.Scene {
 
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            console.log(menu);
+            //console.log("menu");
             this.scene.start("menuScene");
         }
         //Update enemy particles behind them
@@ -204,7 +212,7 @@ class Play extends Phaser.Scene {
 
         if (this.checkCollision(this.p1, this.facemask)) {
             //Used for debugging
-            console.log("mask is on");
+            //console.log("mask is on");
             //Boolean used for dot event
             this.facemaskon = true;
         }
@@ -222,7 +230,7 @@ class Play extends Phaser.Scene {
         if(this.checkCollision(this.p1, this.covid1) && dotHit == false && !this.gameOver){
 
             if(this.facemaskon == true){
-                console.log("mask is off");
+                //console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
@@ -237,7 +245,7 @@ class Play extends Phaser.Scene {
         if(this.checkCollision(this.p1, this.covid2) && dotHit == false && !this.gameOver){
             //Check for conditional to check if facemask is on
             if(this.facemaskon == true){
-                console.log("mask is off");
+                //console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
@@ -252,13 +260,13 @@ class Play extends Phaser.Scene {
         if(this.checkCollision(this.p1, this.covid3) && dotHit == false && !this.gameOver){
 
             if(this.facemaskon == true){
-                console.log("mask is off");
+                //console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
                 this.dotClock = this.time.delayedCall(4000, this.dotDone);
                 return;
             }
-            console.log("i am here");
+            //console.log("i am here");
             this.hp.decrease(this,Phaser.Math.Between(1, 4));
             dotHit = true;
             this.dotClock = this.time.delayedCall(4000, this.dotDone);
@@ -312,12 +320,14 @@ class Play extends Phaser.Scene {
         emitter1.explode();
     }
 
-    increaseDifficulty() {
-        enemySpeed = enemySpeed * 1.5;    
-    }
-
     timeUp(){
         this.elasped++;
+        //console.log(this.elasped + "elasped time");
+        if(this.elasped%30 == 0){
+            //console.log("i ran");
+            enemySpeed = enemySpeed * 1.5;    
+        }
     }
+    
 
 }
