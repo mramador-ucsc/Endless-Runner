@@ -5,7 +5,8 @@ class Player extends Phaser.GameObjects.Sprite {
         scene.add.existing(this); //add object to existing scene, displayList, updateList
         this.isJumping = false;
         this.isFalling = false;
-        //this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
+        this.sfxJump = scene.sound.add('sfx_jump'); // add jumping sfx
+        this.sfxFall = scene.sound.add('sfx_fall'); // add falling sfx
     }
     update() {
         //left/right movement
@@ -23,6 +24,7 @@ class Player extends Phaser.GameObjects.Sprite {
         //Fall Button
         if (Phaser.Input.Keyboard.JustDown(keyDOWN) && !this.isJumping && !this.isFalling && this.y < config.height) {
            this.isFalling = true;
+           this.sfxFall.play();  // play sfx
         }
 
         if (this.isFalling){
@@ -45,7 +47,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // Jumping button
         if (Phaser.Input.Keyboard.JustDown(keyUP) && !this.isJumping && !this.isFalling && this.y > config.height/3) {
             this.isJumping = true;
-            //this.sfxRocket.play();  // play sfx
+            this.sfxJump.play();  // play sfx
         }
         //if Jumping, move up
         if (this.isJumping) {

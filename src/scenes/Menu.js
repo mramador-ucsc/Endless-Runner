@@ -4,6 +4,10 @@ class Menu extends Phaser.Scene {
     }
     preload() {
         this.load.audio('song', './assets/BrentsBible.mp3');
+        this.load.audio('sfx_hurt', './assets/sfx_hurt.flac');
+        this.load.audio('sfx_jump', './assets/sfx_jump.ogg');
+        this.load.audio('sfx_fall', './assets/sfx_fall.ogg');
+        this.load.audio('sfx_select', './assets/sfx_click.wav');
     }
     create() {
         let gameAudio = this.sound.add('song');
@@ -26,7 +30,7 @@ class Menu extends Phaser.Scene {
         let textSpacer = 64;
 
         this.add.text(centerX, centerY - centerY / 2, 'Endless Runner', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use <- -> arrows to move & (^) to Jump', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Use ← → arrows to move & ↑ to Jump', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
 
@@ -34,27 +38,18 @@ class Menu extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         //Launch the next scene
-        //this.scene.start("playScene");
+        //    this.scene.start("playScene");
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            // easy mode
-            game.settings = {
-                playerSpeed: 3,
-                gameTimer: 60000
-            }
-            gameTime = 60000;
-            this.scene.start("playScene");
-        }
-
-        else if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // hard mode
             game.settings = {
                 playerSpeed: 5,
                 gameTimer: 45000
             }
             gameTime = 45000;
+            this.sound.play('sfx_select');
             this.scene.start("playScene");
         }
     }

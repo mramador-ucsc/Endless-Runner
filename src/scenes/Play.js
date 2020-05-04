@@ -13,9 +13,11 @@ class Play extends Phaser.Scene {
         this.load.image('ground', './assets/platform.png');
         this.load.image('spark0', './assets/yellow.png');
         this.load.image('spark1', './assets/green.png');
+        this.load.image('sick', './assets/sick.png');
     }
     create() {
         myMusic.play();
+        myMusic.loop = true;
         //var globalTime = this.game.time.totalElapsedSeconds();
         //place tile sprite, grocery background
         this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0, 0);
@@ -28,7 +30,11 @@ class Play extends Phaser.Scene {
         //this.stars = this.add.tileSprite(0, 0, 640, 480, 'stars').setOrigin(0, 0);
 
         //Add HP Bar
-        this.hp = new ingameUI(this, 100, 32);
+        this.hp = new ingameUI(this, 50, 32);
+
+        //Add sick icon next to HP Bar
+        this.sickIcon = this.add.tileSprite(this.hp.x + 80, this.hp.y, 16, 16, 'sick').setScale(2, 2).setOrigin(0, 0);
+        this.sickIcon.setAlpha(0);
 
         //add player (p1)
         this.p1 = new Player(this, config.width / 2, config.height, 'player').setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
@@ -36,12 +42,12 @@ class Play extends Phaser.Scene {
         //add enemy x3
         this.enemy1 = new Enemy(this, config.width, config.height / 3, 'enemy', 0, 30).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
         this.enemy2 = new Enemy(this, config.width + space, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
-        this.enemy3 = new Enemy(this, config.width + space*2, config.height, 'enemy', 0, 10).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
+        this.enemy3 = new Enemy(this, config.width + space * 2, config.height, 'enemy', 0, 10).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
 
         //add dot clouds x3
-        this.covid1 = new covidCloud(this, this.enemy1.x, this.enemy1.y-50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
-        this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y-50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
-        this.covid3 = new covidCloud(this, this.enemy3.x, this.enemy3.y-50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
+        this.covid1 = new covidCloud(this, this.enemy1.x, this.enemy1.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
+        this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
+        this.covid3 = new covidCloud(this, this.enemy3.x, this.enemy3.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
 
         this.facemask = new FaceMask(this, config.width, config.height / 3, 'facemask', 0, 30).setScale(0.1, 0.1).setOrigin(0.5, 1).setDepth(1);
         //this.facemask.x = 0;
@@ -51,6 +57,7 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
         // score
         this.p1Score = 0;
@@ -85,7 +92,6 @@ class Play extends Phaser.Scene {
 
         //Ship Speed Increase after 30 seconds
         
-        //setInterval(this.increaseDifficulty, 10000);
         //console.log(Phaser.Math.Distance.Between(0,0,100,0)); // 103.07764064044152
 
         keyLEFT.on('up', (event) => {  
@@ -124,10 +130,10 @@ class Play extends Phaser.Scene {
         }
 
 
-        if(this.hp.isDead == true){
+        if (this.hp.isDead == true) {
             this.gameOver = true;
         }
-        
+
         if (this.gameOver) {
             this.difficultyTimer.paused = true;
               myMusic.pause();
@@ -158,12 +164,12 @@ class Play extends Phaser.Scene {
             this.scoreRight.setDepth(999);
 
 
-            if(this.p1HighScore<this.p1Score){
+            if (this.p1HighScore < this.p1Score) {
                 p1HighScore = this.p1Score;
                 this.p1HighScore = this.p1Score;
             }
 
-            if(this.p1HighTime<this.elasped){
+            if (this.p1HighTime < this.elasped) {
                 p1HighTime = this.elasped;
                 this.p1HighTime = this.elasped;
             }
@@ -178,6 +184,7 @@ class Play extends Phaser.Scene {
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyUP)) {
             gameTime = game.settings.gameTimer;
+            this.sound.play('sfx_select');
             this.scene.restart();
 
         }
@@ -185,19 +192,20 @@ class Play extends Phaser.Scene {
             //console.log("menu");
             this.scene.start("menuScene");
         }
-        //Update enemy particles behind them
-        this.enemyParticle(this.enemy1); 
-        this.enemyParticle(this.enemy2);
-        this.enemyParticle(this.enemy3);
 
         //scroll grocery background
         this.background.tilePositionX += .5;
 
         if (!this.gameOver) {
-            this.p1.update();         
+            this.p1.update();
             this.enemy1.update();
             this.enemy2.update();
             this.enemy3.update();
+
+            //Update enemy particles behind them
+            this.enemyParticle(this.enemy1);
+            this.enemyParticle(this.enemy2);
+            this.enemyParticle(this.enemy3);
 
             this.covid1.update();
             this.covid2.update();
@@ -227,48 +235,54 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }
 
-        if(this.checkCollision(this.p1, this.covid1) && dotHit == false && !this.gameOver){
+        if (this.checkCollision(this.p1, this.covid1) && dotHit == false && !this.gameOver) {
 
             if(this.facemaskon == true){
                 //console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
+                this.sickIcon.setAlpha(0);
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
                 return;
             }
 
-            this.hp.decrease(this,Phaser.Math.Between(1, 4));
+            this.hp.decrease(this, Phaser.Math.Between(1, 4));
             dotHit = true;
+            this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(4000, this.dotDone);
         }
 
-        if(this.checkCollision(this.p1, this.covid2) && dotHit == false && !this.gameOver){
+        if (this.checkCollision(this.p1, this.covid2) && dotHit == false && !this.gameOver) {
             //Check for conditional to check if facemask is on
             if(this.facemaskon == true){
                 //console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
+                this.sickIcon.setAlpha(0);
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
                 return;
             }
 
-            this.hp.decrease(this,Phaser.Math.Between(1, 4));
+            this.hp.decrease(this, Phaser.Math.Between(1, 4));
             dotHit = true;
+            this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(3000, this.dotDone);
         }
 
-        if(this.checkCollision(this.p1, this.covid3) && dotHit == false && !this.gameOver){
+        if (this.checkCollision(this.p1, this.covid3) && dotHit == false && !this.gameOver) {
 
             if(this.facemaskon == true){
                 //console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
+                this.sickIcon.setAlpha(1);
                 this.dotClock = this.time.delayedCall(4000, this.dotDone);
                 return;
             }
             //console.log("i am here");
             this.hp.decrease(this,Phaser.Math.Between(1, 4));
             dotHit = true;
+            this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(4000, this.dotDone);
         }
 
@@ -286,7 +300,7 @@ class Play extends Phaser.Scene {
         }
     }
 
-    dotDone(){
+    dotDone() {
         dotHit = false;
     }
 
@@ -303,7 +317,7 @@ class Play extends Phaser.Scene {
             lifespan: 400,
             gravityY: 0
         });
-            
+
         var emitter1 = this.add.particles('spark1').createEmitter({
             x: enemy.x,
             y: enemy.y - enemy.height / 4,
