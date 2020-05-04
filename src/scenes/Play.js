@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
         //load images/tile sprite
     //    this.load.image('player', './assets/player.png');
    //     this.load.image('enemy', './assets/enemy.png');
-        this.load.image('cloud', './assets/doodleCloud.png');
+        this.load.image('cloud', './assets/bubble.png');
         this.load.image('facemask', './assets/powerup_soap.png');
    //     this.load.image('soap', './assets/powerup_soap.png');
         this.load.image('background', './assets/playBackground.png');
@@ -75,11 +75,11 @@ class Play extends Phaser.Scene {
         this.enemy2.anims.play('run');
         this.enemy3.anims.play('run');
         //add dot clouds x3
-        this.covid1 = new covidCloud(this, this.enemy1.x, this.enemy1.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
-        this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
-        this.covid3 = new covidCloud(this, this.enemy3.x, this.enemy3.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
+        this.covid1 = new covidCloud(this, this.enemy1.x, this.enemy1.y-20 , 'cloud', 0, 30).setScale(.5, .5).setOrigin(0.5, 1).setDepth(1);
+        this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y-20 , 'cloud', 0, 30).setScale(.5, .5).setOrigin(0.5, 1).setDepth(1);
+        this.covid3 = new covidCloud(this, this.enemy3.x, this.enemy3.y-20, 'cloud', 0, 30).setScale(.5, .5).setOrigin(0.5, 1).setDepth(1);
 
-        this.facemask = new FaceMask(this, config.width, config.height / 3, 'facemask', 0, 30).setScale(0.1, 0.1).setOrigin(0.5, 1).setDepth(1);
+        this.facemask = new FaceMask(this, config.width, config.height / 3, 'facemask', 0, 30).setScale(1, 1).setOrigin(0, 0).setDepth(1);
         //this.facemask.x = 0;
 
         //define keyboard keys
