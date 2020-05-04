@@ -20,7 +20,7 @@ game.settings = {
 }
 
 //reserve some keyboard variables
-let keyUP, keyLEFT, keyRIGHT, keyDOWN;
+let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyM;
 var highScore = 0;
 var gameTime = 60000;
 var myMusic = new Audio("./assets/BrentsBible.mp3");
