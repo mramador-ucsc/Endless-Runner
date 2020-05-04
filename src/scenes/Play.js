@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
         this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
         this.covid3 = new covidCloud(this, this.enemy3.x, this.enemy3.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
 
-        this.facemask = new FaceMask(this, config.width, config.height / 3, 'facemask', 0, 30).setScale(0.1, 0.1).setOrigin(0.5, 1).setDepth(1);
+        this.facemask = new FaceMask(this, config.width, (config.height / 3)-100, 'soap', 0, 30).setDepth(1);
         //this.facemask.x = 0;
 
         //define keyboard keys
@@ -254,7 +254,7 @@ class Play extends Phaser.Scene {
         // check collisions
 
 
-        if (this.checkCollision(this.p1, this.facemask)) {
+        if (this.checkCollision(this.p1, this.facemask) && this.facemaskon == false) {
             //Used for debugging
             //console.log("mask is on");
             //Boolean used for dot event
@@ -312,7 +312,7 @@ class Play extends Phaser.Scene {
                 this.facemaskon = false;
                 dotHit = true;
                 this.sickIcon.setAlpha(1);
-                this.dotClock = this.time.delayedCall(4000, this.dotDone);
+                this.dotClock = this.time.delayedCall(3000, this.dotDone);
                 return;
             }
             //console.log("i am here");
