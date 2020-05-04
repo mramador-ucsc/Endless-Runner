@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
     //    this.load.image('player', './assets/player.png');
    //     this.load.image('enemy', './assets/enemy.png');
         this.load.image('cloud', './assets/doodleCloud.png');
-        this.load.image('facemask', './assets/facemask.png');
+        this.load.image('facemask', './assets/powerup_soap.png');
         this.load.image('soap', './assets/powerup_soap.png');
         this.load.image('background', './assets/playBackground.png');
         this.load.image('ground', './assets/platform.png');
@@ -282,7 +282,7 @@ class Play extends Phaser.Scene {
                 return;
             }
 
-            this.hp.decrease(this, Phaser.Math.Between(1, 4));
+            this.hp.decrease(this, Phaser.Math.Between(5, 10));
             dotHit = true;
             this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(4000, this.dotDone);
@@ -299,7 +299,7 @@ class Play extends Phaser.Scene {
                 return;
             }
 
-            this.hp.decrease(this, Phaser.Math.Between(1, 4));
+            this.hp.decrease(this, Phaser.Math.Between(5, 10));
             dotHit = true;
             this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(3000, this.dotDone);
@@ -316,7 +316,7 @@ class Play extends Phaser.Scene {
                 return;
             }
             //console.log("i am here");
-            this.hp.decrease(this,Phaser.Math.Between(1, 4));
+            this.hp.decrease(this,Phaser.Math.Between(5, 10));
             dotHit = true;
             this.sickIcon.setAlpha(1);
             this.dotClock = this.time.delayedCall(4000, this.dotDone);
