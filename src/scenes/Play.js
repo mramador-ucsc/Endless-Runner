@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
     //    this.load.image('player', './assets/player.png');
    //     this.load.image('enemy', './assets/enemy.png');
         this.load.image('cloud', './assets/doodleCloud.png');
-        this.load.image('facemask', './assets/facemask.png');
+        this.load.image('facemask', './assets/powerup_soap.png');
         this.load.image('soap', './assets/powerup_soap.png');
         this.load.image('background', './assets/playBackground.png');
         this.load.image('ground', './assets/platform.png');
