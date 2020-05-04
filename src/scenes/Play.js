@@ -6,9 +6,10 @@ class Play extends Phaser.Scene {
     preload() {
         //load images/tile sprite
     //    this.load.image('player', './assets/player.png');
-        this.load.image('enemy', './assets/enemy.png');
+   //     this.load.image('enemy', './assets/enemy.png');
         this.load.image('cloud', './assets/doodleCloud.png');
         this.load.image('facemask', './assets/facemask.png');
+        this.load.image('soap', './assets/powerup_soap.png');
         this.load.image('background', './assets/playBackground.png');
         this.load.image('ground', './assets/platform.png');
         this.load.image('spark0', './assets/yellow.png');
@@ -17,6 +18,10 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('player', './assets/spritesheet/playerSpritesheet.png',{
             frameWidth: 80,
             frameHeight: 80
+        });
+        this.load.spritesheet('enemy', './assets/spritesheet/enemySpritesheet.png',{
+            frameWidth: 160,
+            frameHeight: 160
         });
     }
     create() {
@@ -53,10 +58,22 @@ class Play extends Phaser.Scene {
         });
         this.p1.anims.play('walk');
         //add enemy x3
-        this.enemy1 = new Enemy(this, config.width, config.height / 3, 'enemy', 0, 30).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
-        this.enemy2 = new Enemy(this, config.width + space, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
-        this.enemy3 = new Enemy(this, config.width + space * 2, config.height, 'enemy', 0, 10).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
+        this.enemy1 = new Enemy(this, config.width, config.height / 3, 'enemy', 0, 30).setScale(0.75, 0.75).setOrigin(0.5, 1).setDepth(1);
+        this.enemy2 = new Enemy(this, config.width + space, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.75, 0.75).setOrigin(0.5, 1).setDepth(1);
+        this.enemy3 = new Enemy(this, config.width + space * 2, config.height, 'enemy', 0, 10).setScale(0.75, 0.75).setOrigin(0.5, 1).setDepth(1);
 
+        this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNumbers('enemy', { 
+                start: 0, 
+                end: 2,
+             }),
+            frameRate: 4,
+            repeat: -1
+        });
+        this.enemy1.anims.play('run');
+        this.enemy2.anims.play('run');
+        this.enemy3.anims.play('run');
         //add dot clouds x3
         this.covid1 = new covidCloud(this, this.enemy1.x, this.enemy1.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
         this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y - 50, 'cloud', 0, 30).setScale(.1, .1).setOrigin(0.5, 1).setDepth(1);
