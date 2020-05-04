@@ -30,7 +30,7 @@ class Player extends Phaser.GameObjects.Sprite {
         if (this.isFalling){
             //If player is on the third floor, fall to second floor
             if (this.y >= (config.height / 3) && this.y  < (config.height* 2) / 3) {
-                this.y += game.settings.playerSpeed;
+                this.y += Math.ceil(game.settings.playerSpeed/ 10) * 10;
                 if(this.y >= (config.height * 2) / 3){
                     this.y = 480;
                     this.isFalling = false;
@@ -38,7 +38,7 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             //If player is on the second floor, fall to first floor
             else if (this.y >= (config.height * 2) / 3 && this.y < config.height) {
-                this.y += game.settings.playerSpeed;
+                this.y += Math.ceil(game.settings.playerSpeed/ 10) * 10;
                 if(this.y == config.height){
                     this.isFalling = false;
                }
@@ -54,14 +54,14 @@ class Player extends Phaser.GameObjects.Sprite {
             //console.log(this.y);
             //if the player is on the first floor, jump to the second floor
             if (this.y <= config.height  && this.y > (config.height * 2) / 3) {
-                this.y -= game.settings.playerSpeed;
+                this.y -= Math.ceil(game.settings.playerSpeed/ 10) * 10;
                 if (this.y == (config.height * 2) / 3) {
                     this.isJumping = false;
                 }
             }
             //If player is on the second floor, jump to the third floor
             else if (this.y <= Math.trunc((config.height * 2) / 3) && this.y > config.height / 3) {
-                this.y -= game.settings.playerSpeed;
+                this.y -= Math.ceil(game.settings.playerSpeed/ 10) * 10;
                 if (this.y == config.height / 3) {
                     this.isJumping = false;
                 }

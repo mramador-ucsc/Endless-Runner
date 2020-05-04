@@ -118,13 +118,14 @@ class Play extends Phaser.Scene {
             loop: true
         });
 
+        /*
         this.increaseDifficultyTimer = this.time.addEvent({
             delay: 10000,                // ms
             callback: this.increaseDifficulty,
             //args: [],
             callbackScope: this,
             loop: true
-        });
+        });*/
         this.elasped = 0;
         //console.log(Phaser.Math.Distance.Between(0,0,100,0)); // 103.07764064044152
 
@@ -132,7 +133,7 @@ class Play extends Phaser.Scene {
             //console.log(this.p1.x);            
             //console.log(this.p1.y);
             if(!this.gameOver){
-            console.log("distance(l): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            //console.log("distance(l): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
             this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1int.x,this.p1int.y,this.p1.x,this.p1.y)); 
             this.keycheck = false;
                 }
@@ -142,7 +143,7 @@ class Play extends Phaser.Scene {
                 //console.log(this.p1.x); //get an error           
             //console.log(this.p1.y); //get an error
             if(!this.gameOver){
-            console.log("distance(r): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
+            //console.log("distance(r): " + Phaser.Math.Distance.Between(this.p1intx,this.p1inty,this.p1.x,this.p1.y));
             this.p1Score += Math.floor(Phaser.Math.Distance.Between(this.p1int.x,this.p1int.y,this.p1.x,this.p1.y));
             this.keycheck = false;
                 }
@@ -170,6 +171,7 @@ class Play extends Phaser.Scene {
 
         if (this.gameOver) {
             this.difficultyTimer.paused = true;
+            game.settings.playerSpeed = 5;
               myMusic.pause();
               enemySpeed = 3;
               
@@ -228,7 +230,7 @@ class Play extends Phaser.Scene {
         }
 
         //scroll grocery background
-        this.background.tilePositionX += 1.5;
+        this.background.tilePositionX += game.settings.playerSpeed;
 
         if (!this.gameOver) {
             this.p1.update();
@@ -370,7 +372,7 @@ class Play extends Phaser.Scene {
 
     increaseDifficulty() {
         enemySpeed = enemySpeed + 2;
-        console.log(enemySpeed);
+        //console.log(enemySpeed);
  //       this.load.audio('sfx_bell', './assets/sfx_bell.mp3');
  //       this.sound.play(sfx_bell);
     }
@@ -379,9 +381,10 @@ class Play extends Phaser.Scene {
 
         this.elasped++;
         //console.log(this.elasped + "elasped time");
-        if(this.elasped%30 == 0){
+        if(this.elasped%15 == 0){
             //console.log("i ran");
-            enemySpeed = enemySpeed * 1.5;    
+            enemySpeed = enemySpeed * 1.25;
+            game.settings.playerSpeed =  game.settings.playerSpeed *1.25;    
         }
     }
     
