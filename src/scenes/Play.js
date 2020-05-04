@@ -381,7 +381,7 @@ class Play extends Phaser.Scene {
 
         this.elasped++;
         //console.log(this.elasped + "elasped time");
-        if(this.elasped%15 == 0){
+        if(this.elasped%15 == 0 && this.elasped<=60){
             //console.log("i ran");
             enemySpeed = enemySpeed * 1.25;
             game.settings.playerSpeed =  game.settings.playerSpeed *1.25;    
