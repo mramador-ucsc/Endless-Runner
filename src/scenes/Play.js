@@ -48,7 +48,7 @@ class Play extends Phaser.Scene {
                 start: 0, 
                 end: 4,
              }),
-            frameRate: 4,
+            frameRate: 8,
             repeat: -1
         });
         this.p1.anims.play('walk');
@@ -168,9 +168,9 @@ class Play extends Phaser.Scene {
                 },
                 fixedWidth: 400
             }
-            this.add.rectangle(config.width/3, config.height/3, 400, 250, 0xFACADE).setOrigin(0, 0);
+            this.add.rectangle(config.width/3, config.height/3, 400, 250, 0xFACADE).setOrigin(0, 0).setDepth(999);
             scoreConfig.fontSize = 17;
-            this.menu = this.add.text(425, 250, "Press < to go back or ^ to play again", scoreConfig);            
+            this.menu = this.add.text(425, 250, "Press M to go back or ↑ to play again", scoreConfig);            
             this.menu.setDepth(999);
 
             scoreConfig.fontSize = 20;
@@ -205,13 +205,13 @@ class Play extends Phaser.Scene {
             this.scene.restart();
 
         }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)) {
             //console.log("menu");
             this.scene.start("menuScene");
         }
 
         //scroll grocery background
-        this.background.tilePositionX += .5;
+        this.background.tilePositionX += 1.5;
 
         if (!this.gameOver) {
             this.p1.update();
