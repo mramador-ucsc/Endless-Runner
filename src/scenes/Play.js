@@ -5,7 +5,7 @@ class Play extends Phaser.Scene {
 
     preload() {
         //load images/tile sprite
-        this.load.image('player', './assets/player.png');
+    //    this.load.image('player', './assets/player.png');
         this.load.image('enemy', './assets/enemy.png');
         this.load.image('cloud', './assets/doodleCloud.png');
         this.load.image('facemask', './assets/facemask.png');
@@ -14,6 +14,10 @@ class Play extends Phaser.Scene {
         this.load.image('spark0', './assets/yellow.png');
         this.load.image('spark1', './assets/green.png');
         this.load.image('sick', './assets/sick.png');
+        this.load.spritesheet('player', './assets/spritesheet/playerSpritesheet.png',{
+            frameWidth: 80,
+            frameHeight: 80
+        });
     }
     create() {
         myMusic.play();
@@ -37,8 +41,17 @@ class Play extends Phaser.Scene {
         this.sickIcon.setAlpha(0);
 
         //add player (p1)
-        this.p1 = new Player(this, config.width / 2, config.height, 'player').setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
-
+        this.p1 = new Player(this, config.width / 2, config.height, 'player').setScale(1, 1).setOrigin(0.5, 1).setDepth(1);
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNumbers('player', { 
+                start: 0, 
+                end: 4,
+             }),
+            frameRate: 4,
+            repeat: -1
+        });
+        this.p1.anims.play('walk');
         //add enemy x3
         this.enemy1 = new Enemy(this, config.width, config.height / 3, 'enemy', 0, 30).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
         this.enemy2 = new Enemy(this, config.width + space, (config.height * 2) / 3, 'enemy', 0, 50).setScale(0.5, 0.5).setOrigin(0.5, 1).setDepth(1);
@@ -81,14 +94,21 @@ class Play extends Phaser.Scene {
 
         this.difficultyTimer = this.time.addEvent({
             delay: 1000,
-            callback: this.timeUp,
+            callback: this.timeUp, 
             callbackScope: this,
             loop: true
         });
 
+        this.increaseDifficultyTimer = this.time.addEvent({
+            delay: 10000,                // ms
+            callback: this.increaseDifficulty,
+            //args: [],
+            callbackScope: this,
+            loop: true
+        });
         this.elasped = 0;
         //Enemy Speed Increase after 30 seconds
-        setInterval(this.increaseDifficulty, 30000);
+        setInterval(this.increaseDifficulty, 10000);
         //console.log(Phaser.Math.Distance.Between(0,0,100,0)); // 103.07764064044152
 
     }
@@ -133,6 +153,7 @@ class Play extends Phaser.Scene {
 
         if (this.gameOver) {
             this.difficultyTimer.paused = true;
+            this.increaseDifficultyTimer.paused = true;
             myMusic.pause();
             enemySpeed = 3;
             let scoreConfig = {
@@ -326,7 +347,10 @@ class Play extends Phaser.Scene {
     }
 
     increaseDifficulty() {
-        enemySpeed = enemySpeed * 1.5;
+        enemySpeed = enemySpeed + 2;
+        console.log(enemySpeed);
+ //       this.load.audio('sfx_bell', './assets/sfx_bell.mp3');
+ //       this.sound.play(sfx_bell);
     }
 
     timeUp() {
