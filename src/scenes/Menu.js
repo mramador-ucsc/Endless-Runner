@@ -31,6 +31,7 @@ class Menu extends Phaser.Scene {
 
         this.add.text(centerX, centerY - centerY / 2, 'Endless Runner', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY, 'Use ← → arrows to move & ↑ to Jump', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Avoid ', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
 
