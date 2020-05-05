@@ -51,7 +51,6 @@ class Player extends Phaser.GameObjects.Sprite {
         }
         //if Jumping, move up
         if (this.isJumping) {
-            //console.log(this.y);
             //if the player is on the first floor, jump to the second floor
             if (this.y <= config.height  && this.y > (config.height * 2) / 3) {
                 this.y -= Math.ceil(game.settings.playerSpeed/ 10) * 10;
@@ -67,16 +66,5 @@ class Player extends Phaser.GameObjects.Sprite {
                 }
             }
         }
-        /*
-                // bn on miss
-                if (this.y <= 108) {
-                    this.reset();
-                }
-                */
-    }
-    //reset rocket to ground
-    reset() {
-        this.isFiring = false;
-        this.y = 431;
     }
 }

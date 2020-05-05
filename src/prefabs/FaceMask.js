@@ -14,7 +14,9 @@ class FaceMask extends Phaser.GameObjects.Sprite {
         this.x -= 2;
         //wrap around screen bounds
         if (this.x <= 0 - this.width) {
+            //Spawn on one of the floors
              this.randomFloor = getRandomInt(1, 3);
+             //Make visible again
              this.alpha = 1;
             if(this.randomFloor == 1){
                 this.x = game.config.width;
@@ -30,6 +32,7 @@ class FaceMask extends Phaser.GameObjects.Sprite {
             }
         }
     }
+     //reset clouds position
     reset(){
         this.x = game.config.width;
     }

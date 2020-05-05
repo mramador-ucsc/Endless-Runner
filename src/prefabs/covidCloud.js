@@ -1,9 +1,7 @@
 class covidCloud extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame);
-
         scene.add.existing(this); //add object to existing scene, displayList, updateList
-        //this.points = pointValue;
 
     }
     
@@ -12,6 +10,7 @@ class covidCloud extends Phaser.GameObjects.Sprite {
         this.x -= enemySpeed+3;
         //wrap around screen bounds
         if (this.x <= 0 - this.width) {
+            //Spawn on one of the floors
              this.randomFloor = getRandomInt(1, 3);
             if(this.randomFloor == 1){
                 this.x = game.config.width;
@@ -27,7 +26,7 @@ class covidCloud extends Phaser.GameObjects.Sprite {
             }
         }
     }
-    
+    //reset clouds position
     reset(){
         this.x = game.config.width;
     }

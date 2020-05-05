@@ -34,29 +34,18 @@ class Menu extends Phaser.Scene {
         let centerY = game.config.height / 2;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY - centerY / 2, 'Endless Runner', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - centerY / 2, 'Pandemic Runner', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY, 'Press [ M ] to start', menuConfig).setOrigin(0.5);
-        //this.add.text(centerX, centerY, 'Avoid ', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
 
         // define keys
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-        //keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        //Launch the next scene
-        //    this.scene.start("playScene");
     }
-
     update() {
-
         //scroll grocery background
         this.background.tilePositionX += 3;
         if (Phaser.Input.Keyboard.JustDown(keyM)) {
-            game.settings = {
-                playerSpeed: 5,
-                gameTimer: 45000
-            }
-            gameTime = 45000;
             this.sound.play('sfx_select');
             this.scene.start("loreScene");
         }
