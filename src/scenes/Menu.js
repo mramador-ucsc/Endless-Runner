@@ -10,8 +10,11 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/sfx_click.wav');
         this.load.audio('sfx_soap', './assets/sfx_soap.ogg');
         this.load.audio('sfx_sick', './assets/sfx_sick.ogg');
+        this.load.audio('sfx_alarm', './assets/sfx_alarm.ogg');
+        this.load.image('background', './assets/playBackground.png');
     }
     create() {
+        this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0, 0);
         let gameAudio = this.sound.add('song');
 
         let menuConfig = {
@@ -32,21 +35,23 @@ class Menu extends Phaser.Scene {
         let textSpacer = 64;
 
         this.add.text(centerX, centerY - centerY / 2, 'Endless Runner', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use ← → arrows to move & ↑ to Jump', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Avoid ', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Press [ M ] to start', menuConfig).setOrigin(0.5);
+        //this.add.text(centerX, centerY, 'Avoid ', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
 
         // define keys
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        //keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         //Launch the next scene
         //    this.scene.start("playScene");
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            // hard mode
+
+        //scroll grocery background
+        this.background.tilePositionX += 3;
+        if (Phaser.Input.Keyboard.JustDown(keyM)) {
             game.settings = {
                 playerSpeed: 5,
                 gameTimer: 45000

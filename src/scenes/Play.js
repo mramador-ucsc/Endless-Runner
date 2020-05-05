@@ -27,8 +27,9 @@ class Play extends Phaser.Scene {
     create() {
         myMusic.play();
         myMusic.loop = true;
-        this.sfx_sick = this.sound.add('sfx_sick'); // add jumping sfx
-        this.sfx_soap = this.sound.add('sfx_soap'); // add falling sfx
+        this.sfx_sick = this.sound.add('sfx_sick');
+        this.sfx_soap = this.sound.add('sfx_soap'); 
+        this.sfx_alarm = this.sound.add('sfx_alarm');
         //var globalTime = this.game.time.totalElapsedSeconds();
         //place tile sprite, grocery background
         this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0, 0);
@@ -120,14 +121,13 @@ class Play extends Phaser.Scene {
             loop: true
         });
 
-        /*
+        
         this.increaseDifficultyTimer = this.time.addEvent({
-            delay: 10000,                // ms
+            delay: 20000,                // ms
             callback: this.increaseDifficulty,
-            //args: [],
             callbackScope: this,
-            loop: true
-        });*/
+            repeat: 4
+        });
         this.elasped = 0;
         //console.log(Phaser.Math.Distance.Between(0,0,100,0)); // 103.07764064044152
 
@@ -384,10 +384,10 @@ class Play extends Phaser.Scene {
         emitter0.explode();
         emitter1.explode();
     }
-
     increaseDifficulty() {
         enemySpeed = enemySpeed + 2;
-        //console.log(enemySpeed);
+        this.sfx_alarm.play();  // play sfx
+        console.log(enemySpeed);
  //       this.load.audio('sfx_bell', './assets/sfx_bell.mp3');
  //       this.sound.play(sfx_bell);
     }
@@ -398,7 +398,7 @@ class Play extends Phaser.Scene {
         //console.log(this.elasped + "elasped time");
         if(this.elasped%15 == 0 && this.elasped<=60){
             //console.log("i ran");
-            enemySpeed = enemySpeed * 1.25;
+            //enemySpeed = enemySpeed * 2;
             game.settings.playerSpeed =  game.settings.playerSpeed *1.25;    
         }
     }
