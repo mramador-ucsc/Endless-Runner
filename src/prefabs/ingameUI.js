@@ -32,11 +32,11 @@ class ingameUI {
         //DOT indicator
         this.overlay.fillStyle(0x00FF00, 0.1)
         this.overlay.fillRect(0, 0, config.width, config.height);
-
+/*
         this.dotClock3 = scene.time.delayedCall(4000,  () => {
             this.overlay.clear();
         }, null, scene);
-
+*/
         //console.log("here");
 
         this.dotClock = scene.time.delayedCall(2000,  () => {
@@ -87,6 +87,9 @@ class ingameUI {
         //Actual Health Bar
         this.bar.fillRect(this.x + 2, this.y + 2, d, 12);
 
+    }
+    clean(){
+        this.overlay.clear();
     }
 
 }

@@ -8,6 +8,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_jump', './assets/sfx_jump.ogg');
         this.load.audio('sfx_fall', './assets/sfx_fall.ogg');
         this.load.audio('sfx_select', './assets/sfx_click.wav');
+        this.load.audio('sfx_soap', './assets/sfx_soap.ogg');
+        this.load.audio('sfx_sick', './assets/sfx_sick.ogg');
     }
     create() {
         let gameAudio = this.sound.add('song');

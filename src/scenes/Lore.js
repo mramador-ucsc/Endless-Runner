@@ -3,7 +3,7 @@ class Lore extends Phaser.Scene {
         super("loreScene");
     }
     preload() {
-        this.load.audio('sfx_select', './assets/sfx_click.wav');
+       // this.load.audio('sfx_select', './assets/sfx_click.wav');
         this.load.image('runnerlore', './assets/runnerlore.png');
     }
     create() {
@@ -27,7 +27,7 @@ class Lore extends Phaser.Scene {
         let centerY = game.config.height / 2;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY - centerY / 2, 'Lore scene', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + centerY - 20, 'Press [ M ] to continue', menuConfig).setOrigin(0.5);
       //  this.add.text(centerX, centerY, 'Use ← → arrows to move & ↑ to Jump', menuConfig).setOrigin(0.5);
         //this.add.text(centerX, centerY, 'Avoid ', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';

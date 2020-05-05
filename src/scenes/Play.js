@@ -27,6 +27,8 @@ class Play extends Phaser.Scene {
     create() {
         myMusic.play();
         myMusic.loop = true;
+        this.sfx_sick = this.sound.add('sfx_sick'); // add jumping sfx
+        this.sfx_soap = this.sound.add('sfx_soap'); // add falling sfx
         //var globalTime = this.game.time.totalElapsedSeconds();
         //place tile sprite, grocery background
         this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0, 0);
@@ -79,7 +81,7 @@ class Play extends Phaser.Scene {
         this.covid2 = new covidCloud(this, this.enemy2.x, this.enemy2.y-20 , 'cloud', 0, 30).setScale(.5, .5).setOrigin(0.5, 1).setDepth(1);
         this.covid3 = new covidCloud(this, this.enemy3.x, this.enemy3.y-20, 'cloud', 0, 30).setScale(.5, .5).setOrigin(0.5, 1).setDepth(1);
 
-        this.facemask = new FaceMask(this, config.width, config.height / 3, 'facemask', 0, 30).setScale(1, 1).setOrigin(0, 0).setDepth(1);
+        this.facemask = new FaceMask(this, this.enemy2.x, this.enemy2.y-20, 'facemask', 0, 30).setScale(1, 1).setOrigin(0.5, 1).setDepth(1);
         //this.facemask.x = 0;
 
         //define keyboard keys
@@ -257,8 +259,15 @@ class Play extends Phaser.Scene {
         if (this.checkCollision(this.p1, this.facemask)) {
             //Used for debugging
             //console.log("mask is on");
+            if(this.facemask.alpha != 0.5){
             //Boolean used for dot event
             this.facemaskon = true;
+            dotHit = false;
+            this.sfx_soap.play();  // play sfx
+            this.facemask.setAlpha(0.5);
+            this.hp.clean();
+            }
+
         }
 
         if (this.checkCollision(this.p1, this.enemy1)) {
@@ -272,7 +281,7 @@ class Play extends Phaser.Scene {
         }
 
         if (this.checkCollision(this.p1, this.covid1) && dotHit == false && !this.gameOver) {
-
+/*
             if(this.facemaskon == true){
                 //console.log("mask is off");
                 this.facemaskon = false;
@@ -281,16 +290,17 @@ class Play extends Phaser.Scene {
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
                 return;
             }
-
+*/
             this.hp.decrease(this, Phaser.Math.Between(5, 10));
             dotHit = true;
+            this.sfx_sick.play();  // play sfx
             this.sickIcon.setAlpha(1);
-            this.dotClock = this.time.delayedCall(4000, this.dotDone);
+           // this.dotClock = this.time.delayedCall(4000, this.dotDone);
         }
 
         if (this.checkCollision(this.p1, this.covid2) && dotHit == false && !this.gameOver) {
             //Check for conditional to check if facemask is on
-            if(this.facemaskon == true){
+       /*     if(this.facemaskon == true){
                 //console.log("mask is off");
                 this.facemaskon = false;
                 dotHit = true;
@@ -298,15 +308,16 @@ class Play extends Phaser.Scene {
                 this.dotClock = this.time.delayedCall(3000, this.dotDone);
                 return;
             }
-
+*/
             this.hp.decrease(this, Phaser.Math.Between(5, 10));
             dotHit = true;
+            this.sfx_sick.play();  // play sfx
             this.sickIcon.setAlpha(1);
-            this.dotClock = this.time.delayedCall(3000, this.dotDone);
+         //   this.dotClock = this.time.delayedCall(3000, this.dotDone);
         }
 
         if (this.checkCollision(this.p1, this.covid3) && dotHit == false && !this.gameOver) {
-
+/*
             if(this.facemaskon == true){
                 //console.log("mask is off");
                 this.facemaskon = false;
@@ -315,11 +326,13 @@ class Play extends Phaser.Scene {
                 this.dotClock = this.time.delayedCall(4000, this.dotDone);
                 return;
             }
+            */
             //console.log("i am here");
             this.hp.decrease(this,Phaser.Math.Between(5, 10));
             dotHit = true;
+            this.sfx_sick.play();  // play sfx
             this.sickIcon.setAlpha(1);
-            this.dotClock = this.time.delayedCall(4000, this.dotDone);
+         //   this.dotClock = this.time.delayedCall(4000, this.dotDone);
         }
         if(dotHit != true){
             this.sickIcon.setAlpha(0);
@@ -389,6 +402,4 @@ class Play extends Phaser.Scene {
             game.settings.playerSpeed =  game.settings.playerSpeed *1.25;    
         }
     }
-    
-
 }
